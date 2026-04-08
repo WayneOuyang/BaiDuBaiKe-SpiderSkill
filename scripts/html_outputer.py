@@ -3,7 +3,8 @@ import os
 
 
 class HtmlOutputer(object):
-    def __init__(self):
+    def __init__(self, entry_name='output'):
+        self.entry_name = entry_name
         self.datas = []
 
     def collect_data(self, data):
@@ -11,10 +12,11 @@ class HtmlOutputer(object):
             return
         self.datas.append(data)
 
-    def output_html(self, filename='output.html'):
+    def output_html(self):
+        filename = self.entry_name + '.html'
         with open(filename, 'w', encoding='utf-8') as f:
             f.write('<html><head><meta charset="utf-8">')
-            f.write('<title>百度百科爬虫结果</title>')
+            f.write('<title>百度百科爬虫结果 - ' + self.entry_name + '</title>')
             f.write('<style>')
             f.write('body { font-family: "Microsoft YaHei", sans-serif; margin: 20px; background: #f5f5f5; }')
             f.write('.item { background: #fff; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }')
@@ -24,7 +26,7 @@ class HtmlOutputer(object):
             f.write('.summary { color: #555; margin: 10px 0; line-height: 1.6; }')
             f.write('.content { color: #333; line-height: 1.8; white-space: pre-wrap; }')
             f.write('</style></head><body>')
-            f.write('<h1>百度百科爬虫结果</h1>')
+            f.write('<h1>百度百科爬虫结果 - ' + self.entry_name + '</h1>')
             for data in self.datas:
                 f.write('<div class="item">')
                 f.write(f'<div class="title">{_escape(data.get("title", ""))}</div>')
@@ -36,7 +38,8 @@ class HtmlOutputer(object):
             f.write('</body></html>')
         print(f'[*] HTML 结果已保存到 {os.path.abspath(filename)}')
 
-    def output_json(self, filename='output.json'):
+    def output_json(self):
+        filename = self.entry_name + '.json'
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(self.datas, f, ensure_ascii=False, indent=2)
         print(f'[*] JSON 结果已保存到 {os.path.abspath(filename)}')

@@ -77,12 +77,27 @@ python spider_main.py --url https://baike.baidu.com/item/Python --count 5
 | 参数 | 说明 | 默认值 |
 |------|------|--------|
 | `--url` | 起始词条 URL | `https://baike.baidu.com/item/Python` |
+| `--name` | 输出文件名（不含扩展名），默认为URL中的词条名 | 自动从URL提取 |
 | `--count` | 最大爬取页面数 | `10` |
 
 ## 输出文件
 
-- `output.html` — 带样式的 HTML 报告
-- `output.json` — 结构化 JSON 数据
+- `{name}.html` — 带样式的 HTML 报告
+- `{name}.json` — 结构化 JSON 数据
+
+每次运行生成独立的文件，文件名即词条名称，互不覆盖。
+
+## 用法示例
+
+```bash
+# 使用URL中的词条名作为文件名
+python scripts/spider_main.py --url https://baike.baidu.com/item/辽宁号航空母舰 --count 20
+# 输出: 辽宁号航空母舰.json, 辽宁号航空母舰.html
+
+# 使用用户指定的有区分度的名称
+python scripts/spider_main.py --url https://baike.baidu.com/item/辽宁号航空母舰 --name 辽宁舰 --count 20
+# 输出: 辽宁舰.json, 辽宁舰.html
+```
 
 ## 架构
 
